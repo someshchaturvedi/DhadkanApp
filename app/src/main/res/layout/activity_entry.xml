@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="date"
+                    android:inputType=""/>
+
+                <EditText
+                    android:id="@+id/editText2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="time"
+                    android:inputType="none"/>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Weight" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editText3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="5"
+                    android:hint="Body Weight" />
+
+                <Spinner
+                    android:id="@+id/spinner4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:entries="@array/weights" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Hearth Rate" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/editText4"
+                    android:layout_width="0dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:hint="Heart Rate" />
+                <TextView
+                    android:gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:textColor="#000000"
+                    android:paddingLeft="10dp"
+                    android:layout_height="match_parent"
+                    android:text="bpm" />
+
+            </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Weight" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/editText5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="4"
+                        android:hint="Systolic" />
+                    <TextView
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="mmhg"
+                        android:layout_weight="2"/>
+
+                    <EditText
+                        android:id="@+id/editText6"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="4"
+                        android:hint="Diastolic" />
+                    <TextView
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:textColor="#000000"
+                        android:layout_weight="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="mmhg" />
+                </LinearLayout>
+
+            <Button
+                android:id="@+id/register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:text="Save" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
