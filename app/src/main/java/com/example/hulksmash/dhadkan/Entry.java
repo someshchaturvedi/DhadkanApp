@@ -33,8 +33,7 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
-        SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        Toast.makeText(Entry.this, "" +pref.getInt("P_ID", 0) , Toast.LENGTH_SHORT).show();
+
         date = (EditText) findViewById(R.id.editText);
         date.setOnClickListener(this);
         time = (EditText) findViewById(R.id.editText2);

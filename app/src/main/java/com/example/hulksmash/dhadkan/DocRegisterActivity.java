@@ -1,6 +1,7 @@
 package com.example.hulksmash.dhadkan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +50,7 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
         pre_mobile = (Spinner) findViewById(R.id.spinner);
         password = (EditText) findViewById(R.id.editText12);
         register.setOnClickListener(this);
+        session = new SessionManager(this);
     }
 
     @Override
@@ -99,11 +101,15 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
                             try {
 
 
-                                int U_ID = (Integer) response.get("ID");
+                                int U_ID = Integer.parseInt(response.get("U_ID").toString());
                                 String token = "" + response.get("Token");
-                                int ID = (int) response.get("ID");
+                                int ID = Integer.parseInt(response.get("ID").toString());
 
                                 session.createLoginSession(token, U_ID, "doctor", ID);
+                                Intent i = new Intent(DocRegisterActivity.this, PatientListActivity.class);
+                                startActivity(i);
+                                finish();
+                                Log.d("DATA", response.toString());
 //
                             } catch (JSONException e) {
                                 e.printStackTrace();

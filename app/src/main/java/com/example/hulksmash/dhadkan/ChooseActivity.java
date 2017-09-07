@@ -34,5 +34,6 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
             Intent i = new Intent(this, RegisterActivity.class);
             startActivity(i);
         }
+        finish();
     }
 }

@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
+import com.example.hulksmash.dhadkan.ChooseActivity;
 import com.example.hulksmash.dhadkan.SignInActivity;
 
 public class SessionManager {
@@ -55,7 +57,7 @@ public class SessionManager {
 
     public void checkLogin(){
         if(!this.isLoggedIn()){
-            Intent i = new Intent(_context, SignInActivity.class);
+            Intent i = new Intent(_context, ChooseActivity.class);
             _context.startActivity(i);
         }
 
@@ -63,15 +65,19 @@ public class SessionManager {
 
 
 
+
     public HashMap<String, String> getUserDetails(){
         HashMap<String, String> user = new HashMap<String, String>();
         user.put(KEY_TOKEN, pref.getString(KEY_TOKEN, null));
 
-        user.put(KEY_USER, pref.getString(KEY_USER, null));
+        user.put(KEY_USER, Integer.toString(pref.getInt(KEY_USER, 0)));
 
         user.put(KEY_TYPE, pref.getString(KEY_TYPE, null));
 
-        user.put(KEY_ID, pref.getString(KEY_ID, null));
+        user.put(KEY_ID, Integer.toString(pref.getInt(KEY_ID, 0)));
+
+        Log.d("DATA", user.toString());
+
 
         return user;
     }
