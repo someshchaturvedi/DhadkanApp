@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_dhadkan_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".ControllerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +24,8 @@
             android:name=".Entry"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".DocRegisterActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".PatientListActivity" />
         <activity android:name=".ChooseActivity"></activity>
     </application>
 

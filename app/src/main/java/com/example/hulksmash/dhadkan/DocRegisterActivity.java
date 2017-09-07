@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hulksmash.dhadkan.controller.AppController;
+import com.example.hulksmash.dhadkan.controller.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,12 +26,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static android.R.attr.password;
+import static android.R.id.edit;
 
 public class DocRegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button register;
     EditText name, mobile, hospital, email, password;
     Spinner pre_mobile;
+    SessionManager session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +59,6 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
             String str_name = "" + name.getText();
             String str_email = "" + email.getText();
             String str_hospital = "" + hospital.getText();
-            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            String token = pref.getString("Token", "");
-            Toast.makeText(DocRegisterActivity.this, token, Toast.LENGTH_LONG).show();
 
             if (str_name.length() == 0) {
                 Toast.makeText(DocRegisterActivity.this, "enter your name", Toast.LENGTH_LONG).show();
@@ -85,23 +86,29 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
             }
 
 
-            String url = AppController.get_base_url() + "dhadkan/api/user";
+            String url = AppController.get_base_url() + "dhadkan/api/onboard/doc";
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
                     url, null,
                     new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("TAG", response.toString());
-                            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor edit = pref.edit();
+                            Log.d("DATA", response.toString());
+//                            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor edit = pref.edit();
                             try {
-                                edit.putInt("U_ID", (Integer) response.get("id"));
-                                Log.d("SP", "" + response.get("id"));
+
+
+                                int U_ID = (Integer) response.get("ID");
+                                String token = "" + response.get("Token");
+                                int ID = (int) response.get("ID");
+
+                                session.createLoginSession(token, U_ID, "doctor", ID);
+//
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            edit.commit();
+//                            edit.commit();
                         }
                     }, new Response.ErrorListener() {
 
@@ -115,10 +122,11 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
                 public byte[] getBody() {
                     JSONObject params = new JSONObject();
                     try {
-                        String str_mobile = "" + mobile.getText();
-                        String str_password = "" + password.getText();
-                        params.put("username", str_mobile);
-                        params.put("password", str_password);
+                        params.put("name", "" + name.getText());
+                        params.put("password", "" + password.getText());
+                        params.put("mobile", mobile.getText());
+                        params.put("email", "" + email.getText());
+                        params.put("hospital", "" + hospital.getText());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -130,108 +138,109 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
             AppController.getInstance().addToRequestQueue(jsonObjReq);
 
 
-            String url1 = AppController.get_base_url() + "dhadkan/api/login";
-            JsonObjectRequest jsonObjReq1 = new JsonObjectRequest(Request.Method.POST,
-                    url1, null,
-                    new Response.Listener<JSONObject>() {
-
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("TAG", response.toString());
-                            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor edit = pref.edit();
-                            try {
-                                edit.putString("Token", "" + response.get("token"));
-                                Log.d("SP", "" + response.get("token"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            edit.commit();
-                        }
-                    }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("TAG", "Error Message: " + error.getMessage());
-                }
-            }) {
-
-                @Override
-                public byte[] getBody() {
-                    JSONObject params = new JSONObject();
-                    try {
-                        String str_mobile = "" + mobile.getText();
-                        String str_password = "" + password.getText();
-                        params.put("username", str_mobile);
-                        params.put("password", str_password);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    return params.toString().getBytes();
-
-                }
-            };
-            AppController.getInstance().addToRequestQueue(jsonObjReq1);
-
-
-            String url2 = AppController.get_base_url() + "dhadkan/api/doctor";
-            JsonObjectRequest jsonObjReq2 = new JsonObjectRequest(Request.Method.POST,
-                    url2, null,
-                    new Response.Listener<JSONObject>() {
-
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("TAG", response.toString());
-                            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor edit = pref.edit();
-                            try {
-                                edit.putInt("D_ID", (Integer) response.get("pk"));
-                                Log.d("SP", "" + response.get("pk"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            edit.putBoolean("registered", true);
-                            edit.commit();
-                        }
-                    }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("TAG", "Error Message: " + error.getMessage());
-                }
-            }) {
-
-                @Override
-                public byte[] getBody() {
-                    JSONObject params = new JSONObject();
-                    SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                    try {
-                        params.put("name", "" + name.getText());
-                        params.put("password", "" + password.getText());
-                        params.put("mobile", mobile.getText());
-                        params.put("email", "" + email.getText());
-                        params.put("hospital", "" + hospital.getText());
-                        params.put("user", pref.getString("U_ID", ""));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    return params.toString().getBytes();
-
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                    String token = pref.getString("Token", "");
-                    headers.put("Authorization", "Token " + token);
-                    Toast.makeText(DocRegisterActivity.this, token, Toast.LENGTH_LONG).show();
-                    return headers;
-                }
-            };
-            AppController.getInstance().addToRequestQueue(jsonObjReq2);
+//            String url1 = AppController.get_base_url() + "dhadkan/api/login";
+//            JsonObjectRequest jsonObjReq1 = new JsonObjectRequest(Request.Method.POST,
+//                    url1, null,
+//                    new Response.Listener<JSONObject>() {
+//
+//                        @Override
+//                        public void onResponse(JSONObject response) {
+//                            Log.d("TAG", response.toString());
+////                            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+////                            SharedPreferences.Editor edit = pref.edit();
+//                            try {
+//                                token = "" + response.get("token");
+////                                edit.putString("Token", "" + response.get("token"));
+//                                Log.d("SP", "" + response.get("token"));
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+////                            edit.commit();
+//                        }
+//                    }, new Response.ErrorListener() {
+//
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Log.d("TAG", "Error Message: " + error.getMessage());
+//                }
+//            }) {
+//
+//                @Override
+//                public byte[] getBody() {
+//                    JSONObject params = new JSONObject();
+//                    try {
+//                        String str_mobile = "" + mobile.getText();
+//                        String str_password = "" + password.getText();
+//                        params.put("username", str_mobile);
+//                        params.put("password", str_password);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    return params.toString().getBytes();
+//
+//                }
+//            };
+//            AppController.getInstance().addToRequestQueue(jsonObjReq1);
+//
+//
+//            String url2 = AppController.get_base_url() + "dhadkan/api/doctor";
+//            JsonObjectRequest jsonObjReq2 = new JsonObjectRequest(Request.Method.POST,
+//                    url2, null,
+//                    new Response.Listener<JSONObject>() {
+//
+//                        @Override
+//                        public void onResponse(JSONObject response) {
+//                            Log.d("TAG", response.toString());
+//                            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+//                            SharedPreferences.Editor edit = pref.edit();
+//                            try {
+//                                edit.putInt("D_ID", (Integer) response.get("pk"));
+//                                Log.d("SP", "" + response.get("pk"));
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            edit.putBoolean("registered", true);
+//                            edit.commit();
+//                        }
+//                    }, new Response.ErrorListener() {
+//
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Log.d("TAG", "Error Message: " + error.getMessage());
+//                }
+//            }) {
+//
+//                @Override
+//                public byte[] getBody() {
+//                    JSONObject params = new JSONObject();
+//                    SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+//                    try {
+//                        params.put("name", "" + name.getText());
+//                        params.put("password", "" + password.getText());
+//                        params.put("mobile", mobile.getText());
+//                        params.put("email", "" + email.getText());
+//                        params.put("hospital", "" + hospital.getText());
+//                        params.put("user", pref.getString("U_ID", ""));
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    return params.toString().getBytes();
+//
+//                }
+//
+//                @Override
+//                public Map<String, String> getHeaders() throws AuthFailureError {
+//                    HashMap<String, String> headers = new HashMap<String, String>();
+//                    SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+//                    String token = pref.getString("Token", "");
+//                    headers.put("Authorization", "Token " + token);
+//                    Toast.makeText(DocRegisterActivity.this, token, Toast.LENGTH_LONG).show();
+//                    return headers;
+//                }
+//            };
+//            AppController.getInstance().addToRequestQueue(jsonObjReq2);
         }
 
     }

@@ -59,8 +59,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        session = new SessionManager(getApplicationContext());
-        session.checkLogin();
+
 //        Toast.makeText(RegisterActivity.this, pref.getString("Token", "") + pref.getInt("P_ID", 0) + pref.getInt("U_ID", 0), Toast.LENGTH_LONG).show();
         setContentView(R.layout.activity_register);
         name = (EditText) findViewById(R.id.editText);
@@ -137,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
 
 
-            String url = "https://04edccda.ngrok.io/dhadkan/api/user";
+            String url = AppController.get_base_url() + "dhadkan/api/user";
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST,
                     url, null,
                     new Response.Listener<JSONObject>() {
@@ -183,7 +182,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             AppController.getInstance().addToRequestQueue(jsonObjReq);
 
 
-            String url1 = "https://04edccda.ngrok.io/dhadkan/api/login";
+            String url1 = AppController.get_base_url() + "dhadkan/api/login";
             JsonObjectRequest jsonObjReq1 = new JsonObjectRequest(Method.POST,
                     url1, null,
                     new Response.Listener<JSONObject>() {
@@ -228,8 +227,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             };
             AppController.getInstance().addToRequestQueue(jsonObjReq1);
 
+            Log.d("DATA", token);
 
-            String url2 = "https://04edccda.ngrok.io/dhadkan/api/patient";
+            String url2 = AppController.get_base_url() + "dhadkan/api/patient";
             JsonObjectRequest jsonObjReq2 = new JsonObjectRequest(Method.POST,
                     url2, null,
                     new Response.Listener<JSONObject>() {
@@ -289,6 +289,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     return params.toString().getBytes();
 
                 }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Authorization", "Token " + token);
+                    Toast.makeText(RegisterActivity.this, token, Toast.LENGTH_LONG).show();
+                    return headers;
+                }
             };
             AppController.getInstance().addToRequestQueue(jsonObjReq2);
 
@@ -328,7 +336,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void afterTextChanged(final Editable editable) {
         if (editable.toString().length() == 10) {
-            String url = "https://04edccda.ngrok.io/dhadkan/api/doctor?mobile=" + editable.toString();
+            String url = AppController.get_base_url() + "dhadkan/api/doctor?mobile=" + editable.toString();
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.GET,
                     url, null,
                     new Response.Listener<JSONObject>() {
