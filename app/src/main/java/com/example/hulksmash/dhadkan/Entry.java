@@ -19,9 +19,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hulksmash.dhadkan.controller.AppController;
+import com.example.hulksmash.dhadkan.controller.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class Entry extends AppCompatActivity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
@@ -29,6 +32,7 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     Button save;
+    SessionManager session;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,8 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
 
         save = (Button) findViewById(R.id.register);
         save.setOnClickListener(this);
+
+        session = new SessionManager(this);
 
     }
 
@@ -106,11 +112,12 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
 
                     SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                     try {
+                        HashMap<String, String> user = session.getUserDetails();
                         params.put("weight", weight.getText());
                         params.put("heart_rate", heart_rate.getText());
                         params.put("systolic", systolic.getText());
                         params.put("diastolic", diastolic.getText());
-                        params.put("patient", pref.getInt("P_ID", 0));
+                        params.put("patient", Integer.parseInt(user.get("id")));
 
                     } catch (JSONException e) {
                         e.printStackTrace();

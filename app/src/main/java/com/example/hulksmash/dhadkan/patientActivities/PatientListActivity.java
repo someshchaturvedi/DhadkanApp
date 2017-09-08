@@ -1,22 +1,13 @@
-package com.example.hulksmash.dhadkan;
+package com.example.hulksmash.dhadkan.patientActivities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.hulksmash.dhadkan.controller.AppController;
+import com.example.hulksmash.dhadkan.R;
 import com.example.hulksmash.dhadkan.controller.CustomAdapter;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

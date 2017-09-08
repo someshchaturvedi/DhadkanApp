@@ -1,7 +1,6 @@
-package com.example.hulksmash.dhadkan;
+package com.example.hulksmash.dhadkan.patientActivities;
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,32 +14,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.hulksmash.dhadkan.Entry;
+import com.example.hulksmash.dhadkan.R;
 import com.example.hulksmash.dhadkan.controller.AppController;
 import com.example.hulksmash.dhadkan.controller.SessionManager;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static android.R.id.edit;
 import static com.android.volley.Request.*;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, TextWatcher {
@@ -90,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         timePickerDialog = new TimePickerDialog(this, RegisterActivity.this, 0, 0, true);
 
         sexRadioGroup = (RadioGroup) findViewById(R.id.radioSex);
+        session = new SessionManager(this);
 
 
     }
@@ -136,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
 
 
-            String url = AppController.get_base_url() + "dhadkan/api/user";
+            String url = AppController.get_base_url() + "dhadkan/api/onboard/patient";
             JsonObjectRequest jsonObjReq = new JsonObjectRequest(Method.POST,
                     url, null,
                     new Response.Listener<JSONObject>() {
@@ -147,107 +137,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //                            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
 //                            SharedPreferences.Editor edit = pref.edit();
                             try {
-                                u_id = (int) response.get("id");
-//                                edit.putInt("U_ID", (Integer) response.get("id"));
-                                Log.d("SP", "" + response.get("id"));
+                                int U_ID = Integer.parseInt(response.get("U_ID").toString());
+                                String token = "" + response.get("Token");
+                                int ID = Integer.parseInt(response.get("ID").toString());
+                                session.createLoginSession(token, U_ID, "patient", ID);
+                                Intent i = new Intent(RegisterActivity.this, Entry.class);
+                                startActivity(i);
+                                finish();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-//                            edit.commit();
-                        }
-                    }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("TAG", "Error Message: " + error.getMessage());
-                }
-            }) {
-
-                @Override
-                public byte[] getBody() {
-                    JSONObject params = new JSONObject();
-                    try {
-                        String str_mobile = "" + mobile.getText();
-                        String str_password = "" + password.getText();
-                        params.put("username", str_mobile);
-                        params.put("password", str_password);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    return params.toString().getBytes();
-
-                }
-            };
-            AppController.getInstance().addToRequestQueue(jsonObjReq);
-
-
-            String url1 = AppController.get_base_url() + "dhadkan/api/login";
-            JsonObjectRequest jsonObjReq1 = new JsonObjectRequest(Method.POST,
-                    url1, null,
-                    new Response.Listener<JSONObject>() {
-
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("TAG", response.toString());
-//                            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-//                            SharedPreferences.Editor edit = pref.edit();
-                            try {
-//                                edit.putString("Token", "" + response.get("token"));
-                                token = "" + response.get("token");
-                                Log.d("SP", "" + response.get("token"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-//                            edit.commit();
-                        }
-                    }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("TAG", "Error Message: " + error.getMessage());
-                }
-            }) {
-
-                @Override
-                public byte[] getBody() {
-                    JSONObject params = new JSONObject();
-                    try {
-                        String str_mobile = "" + mobile.getText();
-                        String str_password = "" + password.getText();
-                        params.put("username", str_mobile);
-                        params.put("password", str_password);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    return params.toString().getBytes();
-
-                }
-            };
-            AppController.getInstance().addToRequestQueue(jsonObjReq1);
-
-            Log.d("DATA", token);
-
-            String url2 = AppController.get_base_url() + "dhadkan/api/patient";
-            JsonObjectRequest jsonObjReq2 = new JsonObjectRequest(Method.POST,
-                    url2, null,
-                    new Response.Listener<JSONObject>() {
-
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("TAG", response.toString());
-//                            SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-//                            SharedPreferences.Editor edit = pref.edit();
-                            try {
-//                                edit.putInt("P_ID", (Integer) response.get("pk"));
-                                id = (int) response.get("pk");
-                                type = "patient";
-                                Log.d("SP", "" + response.get("pk"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-//                            edit.putBoolean("registered", true);
 //                            edit.commit();
                         }
                     }, new Response.ErrorListener() {
@@ -281,7 +180,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //                        params.put("date_of_birth", );
 
                         params.put("gender", gender);
-                        params.put("user", pref.getString("U_ID", ""));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -289,21 +187,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     return params.toString().getBytes();
 
                 }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Authorization", "Token " + token);
-                    Toast.makeText(RegisterActivity.this, token, Toast.LENGTH_LONG).show();
-                    return headers;
-                }
             };
-            AppController.getInstance().addToRequestQueue(jsonObjReq2);
+            AppController.getInstance().addToRequestQueue(jsonObjReq);
 
-            session.createLoginSession(token, u_id,type, id);
-            Intent i = new Intent(this, Entry.class);
-            startActivity(i);
-            finish();
         } else if (view.getId() == R.id.editText3) {
             datePickerDialog.show();
         } else if (view.getId() == R.id.editText11) {

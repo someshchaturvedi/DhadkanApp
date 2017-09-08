@@ -1,4 +1,4 @@
-package com.example.hulksmash.dhadkan;
+package com.example.hulksmash.dhadkan.patientActivities;
 
 /**
  * Created by hulksmash on 6/9/17.

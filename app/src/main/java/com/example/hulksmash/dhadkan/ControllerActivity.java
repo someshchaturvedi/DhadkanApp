@@ -3,11 +3,11 @@ package com.example.hulksmash.dhadkan;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.example.hulksmash.dhadkan.controller.SessionManager;
+import com.example.hulksmash.dhadkan.patientActivities.PatientListActivity;
 
 import java.util.HashMap;
 

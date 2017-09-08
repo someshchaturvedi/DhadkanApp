@@ -24,8 +24,8 @@
             android:name=".Entry"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".DocRegisterActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".PatientListActivity" />
+        <activity android:name=".patientActivities.RegisterActivity" />
+        <activity android:name=".patientActivities.PatientListActivity" />
         <activity android:name=".ChooseActivity"></activity>
     </application>
 
