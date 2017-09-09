@@ -35,6 +35,8 @@ public class SessionManager {
 
     public static final String KEY_ID = "id";
 
+    public static final String KEY_FCM = "fcm";
+
     public SessionManager(Context context){
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -89,6 +91,11 @@ public class SessionManager {
         Intent i = new Intent(_context, SignInActivity.class);
 
         _context.startActivity(i);
+    }
+
+    public void addFCM(String fcm) {
+        editor.putString(KEY_FCM, fcm);
+        editor.commit();
     }
 
 

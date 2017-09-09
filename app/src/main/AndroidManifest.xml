@@ -21,12 +21,25 @@
         </activity>
         <activity android:name=".SignInActivity" />
         <activity
-            android:name=".Entry"
+            android:name=".patientActivities.Entry"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".DocRegisterActivity" />
+        <activity android:name=".doctorActivities.DocRegisterActivity" />
         <activity android:name=".patientActivities.RegisterActivity" />
-        <activity android:name=".patientActivities.PatientListActivity" />
-        <activity android:name=".ChooseActivity"></activity>
+        <activity android:name=".doctorActivities.PatientListActivity" />
+        <activity android:name=".ChooseActivity" />
+
+        <service android:name=".controller.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".controller.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".doctorActivities.PatientDetailListActivity"></activity>
     </application>
 
 </manifest>

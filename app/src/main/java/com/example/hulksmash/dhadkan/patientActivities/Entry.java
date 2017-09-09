@@ -1,4 +1,4 @@
-package com.example.hulksmash.dhadkan;
+package com.example.hulksmash.dhadkan.patientActivities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.hulksmash.dhadkan.R;
 import com.example.hulksmash.dhadkan.controller.AppController;
 import com.example.hulksmash.dhadkan.controller.SessionManager;
 

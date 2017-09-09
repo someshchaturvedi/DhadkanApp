@@ -16,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hulksmash.dhadkan.controller.AppController;
+import com.example.hulksmash.dhadkan.patientActivities.Entry;
 import com.example.hulksmash.dhadkan.patientActivities.RegisterActivity;
 
 import org.json.JSONException;

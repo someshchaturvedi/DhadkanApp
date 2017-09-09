@@ -1,4 +1,4 @@
-package com.example.hulksmash.dhadkan;
+package com.example.hulksmash.dhadkan.doctorActivities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,9 +14,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.hulksmash.dhadkan.ControllerActivity;
+import com.example.hulksmash.dhadkan.R;
 import com.example.hulksmash.dhadkan.controller.AppController;
 import com.example.hulksmash.dhadkan.controller.SessionManager;
-import com.example.hulksmash.dhadkan.patientActivities.PatientListActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -98,7 +99,7 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
                                 int ID = Integer.parseInt(response.get("ID").toString());
 
                                 session.createLoginSession(token, U_ID, "doctor", ID);
-                                Intent i = new Intent(DocRegisterActivity.this, PatientListActivity.class);
+                                Intent i = new Intent(DocRegisterActivity.this, ControllerActivity.class);
                                 startActivity(i);
                                 finish();
                                 Log.d("DATA", response.toString());

@@ -22,7 +22,7 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.hulksmash.dhadkan.Entry;
+import com.example.hulksmash.dhadkan.ControllerActivity;
 import com.example.hulksmash.dhadkan.R;
 import com.example.hulksmash.dhadkan.controller.AppController;
 import com.example.hulksmash.dhadkan.controller.SessionManager;
@@ -141,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 String token = "" + response.get("Token");
                                 int ID = Integer.parseInt(response.get("ID").toString());
                                 session.createLoginSession(token, U_ID, "patient", ID);
-                                Intent i = new Intent(RegisterActivity.this, Entry.class);
+                                Intent i = new Intent(RegisterActivity.this, ControllerActivity.class);
                                 startActivity(i);
                                 finish();
                             } catch (JSONException e) {

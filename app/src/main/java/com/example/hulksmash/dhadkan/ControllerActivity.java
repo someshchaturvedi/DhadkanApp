@@ -6,14 +6,17 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.hulksmash.dhadkan.controller.MyFirebaseInstanceIDService;
 import com.example.hulksmash.dhadkan.controller.SessionManager;
-import com.example.hulksmash.dhadkan.patientActivities.PatientListActivity;
+import com.example.hulksmash.dhadkan.patientActivities.Entry;
+import com.example.hulksmash.dhadkan.doctorActivities.PatientListActivity;
 
 import java.util.HashMap;
 
 public class ControllerActivity extends Activity {
     SessionManager session;
     private final int SPLASH_DISPLAY_LENGTH = 2000;
+    MyFirebaseInstanceIDService fcm;
 
 
     @Override
@@ -22,16 +25,20 @@ public class ControllerActivity extends Activity {
         setContentView(R.layout.activity_controller);
 
 
+
+                /* Create an Intent that will start the Menu-Activity. */
+        session = new SessionManager(ControllerActivity.this);
+        session.checkLogin();
+        fcm = new MyFirebaseInstanceIDService(ControllerActivity.this);
+        final HashMap<String, String> user = session.getUserDetails();
+        Log.d("DATA", user.toString());
+
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                session = new SessionManager(ControllerActivity.this);
-                session.checkLogin();
-                finish();
-                HashMap<String, String> user = session.getUserDetails();
-                Log.d("DATA", user.toString());
 
+                fcm.onTokenRefresh();
                 if (user.get("type").equals("doctor")) {
                     Intent i = new Intent(ControllerActivity.this, PatientListActivity.class);
                     startActivity(i);
@@ -41,7 +48,7 @@ public class ControllerActivity extends Activity {
                     startActivity(i);
                     finish();
                 }
-
+                finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
     }

@@ -1,4 +1,4 @@
-package com.example.hulksmash.dhadkan.patientActivities;
+package com.example.hulksmash.dhadkan.doctorActivities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,20 +12,19 @@ import com.example.hulksmash.dhadkan.controller.CustomAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientListActivity extends AppCompatActivity {
-    RecyclerView patient_list_view;
+public class PatientDetailListActivity extends AppCompatActivity {
+    RecyclerView patient_detail_list_view;
     CustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_list);
-
-        patient_list_view = (RecyclerView) findViewById(R.id.patient_list);
-        adapter = new CustomAdapter(this, getData());
-        patient_list_view.setAdapter(adapter);
-        patient_list_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        patient_list_view.setItemAnimator(new DefaultItemAnimator());
+        setContentView(R.layout.activity_patient_detail_list);
+//        patient_list_view = (RecyclerView) findViewById(R.id.patient_list);
+//        adapter = new CustomAdapter(this, getData());
+//        patient_list_view.setAdapter(adapter);
+        patient_detail_list_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        patient_detail_list_view.setItemAnimator(new DefaultItemAnimator());
 
 
     }
@@ -87,4 +86,5 @@ public class PatientListActivity extends AppCompatActivity {
         }
         return data;
     }
+
 }
