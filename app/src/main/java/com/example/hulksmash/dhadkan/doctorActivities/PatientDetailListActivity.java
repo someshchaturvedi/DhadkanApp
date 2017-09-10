@@ -5,32 +5,41 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.hulksmash.dhadkan.R;
 import com.example.hulksmash.dhadkan.controller.CustomAdapter;
+import com.example.hulksmash.dhadkan.controller.PatientDetailCustomAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PatientDetailListActivity extends AppCompatActivity {
     RecyclerView patient_detail_list_view;
-    CustomAdapter adapter;
+    PatientDetailCustomAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_detail_list);
-//        patient_list_view = (RecyclerView) findViewById(R.id.patient_list);
-//        adapter = new CustomAdapter(this, getData());
-//        patient_list_view.setAdapter(adapter);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("P_ID");
+            Log.d("TAG" ,value);
+            //The key argument here must match that used in the other activity
+        }
+        patient_detail_list_view = (RecyclerView) findViewById(R.id.patient_detail_list);
+        adapter = new PatientDetailCustomAdapter(this, getData());
+        patient_detail_list_view.setAdapter(adapter);
         patient_detail_list_view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         patient_detail_list_view.setItemAnimator(new DefaultItemAnimator());
 
 
     }
 
-    public static List<PatientRow> getData(){
-        List<PatientRow> data = new ArrayList<PatientRow>();
+    public static List<PatientDetailRow> getData(){
+        List<PatientDetailRow> data = new ArrayList<PatientDetailRow>();
 
 //        String url = AppController.get_base_url() + "patient";
 //        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
@@ -77,12 +86,15 @@ public class PatientDetailListActivity extends AppCompatActivity {
 //        };
 //        AppController.getInstance().addToRequestQueue(jsonObjReq);
 
-        String [] names = {"Somesh", "Animesh", "abc" ,"fuck", "lol", "getlost", "Wooo hooo", "Somesh", "Animesh", "abc" ,"fuck", "lol", "getlost", "Wooo hooo"};
-        int [] ages = {1,2,3,4,5,6,7, 1,2,3,4,5,6,7};
-        String [] genders = {"Somesh", "Animesh", "abc" ,"fuck", "lol", "getlost", "Wooo hooo","Somesh", "Animesh", "abc" ,"fuck", "lol", "getlost", "Wooo hooo" };
+        String [] dates = {"17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21"};
+        String [] times = {"17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21"};
+        String [] weights = {"17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21"};
+        String [] heart_rates = {"17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21"};
+        String [] systolics = {"17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21"};
+        String [] diastolics = {"17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21", "17", "18", "19" ,"20", "21"};
 
-        for (int i=0; i< names.length; i++) {
-            data.add(new PatientRow(names[i], ages[i], genders[i]));
+        for (int i=0; i< dates.length; i++) {
+            data.add(new PatientDetailRow(dates[i], times[i], weights[i], heart_rates[i], systolics[i], diastolics[i]));
         }
         return data;
     }

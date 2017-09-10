@@ -6,12 +6,14 @@ package com.example.hulksmash.dhadkan.doctorActivities;
 
 public class PatientRow {
     public String name;
-    public int age;
+    public String age;
     public String gender;
+    public String id;
 
-    PatientRow(String name, int age, String gender) {
+    PatientRow(String name, String age, String gender ,String id) {
         this.name = name;
         this.age = age;
         this.gender = gender;
+        this.id = id;
     }
 }
