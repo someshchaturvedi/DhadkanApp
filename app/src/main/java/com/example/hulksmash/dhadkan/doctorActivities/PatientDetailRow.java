@@ -5,9 +5,8 @@ package com.example.hulksmash.dhadkan.doctorActivities;
  */
 
 
-
 public class PatientDetailRow {
-    public String date_date ,date_month, date_year, time_hour, time_min, time_period, weight, heart_rate, systolic, diastolic;
+    public String date_date, date_month, date_year, time_hour, time_min, time_period, weight, heart_rate, systolic, diastolic;
 
 
     PatientDetailRow(String date, String time, String weight, String heart_rate, String systolic, String diastolic) {
@@ -24,26 +23,38 @@ public class PatientDetailRow {
     }
 
     private String get_time_period(String time) {
-        return "AM";
+        if (Integer.parseInt(time.split(":")[0]) > 12) {
+            return "P.M";
+        } else {
+            return "A.M";
+        }
     }
 
     private String get_time_min(String time) {
-        return time;
+        return "" + time.split(":")[1];
     }
 
     private String get_time_hour(String time) {
-        return time;
+        String hr;
+        if (Integer.parseInt(time.split(":")[1]) > 12) {
+            int hr_int = 24 - Integer.parseInt(time.split(":")[1]);
+            return "" + hr_int;
+        } else {
+            return "" + time.split(":")[1];
+        }
     }
 
     private String get_date_year(String date) {
-        return "20" + date;
+        return date.split("-")[0];
     }
 
     private String get_date_month(String date) {
-        return "Aug";
+        String[] months = {"", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        int mon_int = Integer.parseInt(date.split("-")[1]);
+        return months[mon_int];
     }
 
     private String get_date_date(String date) {
-        return date;
+        return date.split("-")[2];
     }
 }

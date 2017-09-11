@@ -2,6 +2,7 @@ package com.example.hulksmash.dhadkan.controller;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class PatientDetailCustomAdapter extends RecyclerView.Adapter<PatientDeta
 
     @Override
     public int getItemCount() {
+        Log.d("TAG", ""+data.size());
         return data.size();
     }
 
