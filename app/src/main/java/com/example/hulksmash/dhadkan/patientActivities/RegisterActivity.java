@@ -51,6 +51,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 //        Toast.makeText(RegisterActivity.this, pref.getString("Token", "") + pref.getInt("P_ID", 0) + pref.getInt("U_ID", 0), Toast.LENGTH_LONG).show();
         setContentView(R.layout.activity_register);
+
+        getSupportActionBar().setTitle("Patient Registration");
         name = (EditText) findViewById(R.id.editText);
         address = (EditText) findViewById(R.id.editText2);
         email = (EditText) findViewById(R.id.editText4);

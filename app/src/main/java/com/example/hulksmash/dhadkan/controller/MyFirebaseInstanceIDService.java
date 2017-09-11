@@ -25,9 +25,14 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService  {
     HashMap<String, String> user;
     Context _context;
 
+    public MyFirebaseInstanceIDService() {
+        super();
+    }
+
     public  MyFirebaseInstanceIDService(Context context) {
         _context = context;
     }
+
 
 
     @Override

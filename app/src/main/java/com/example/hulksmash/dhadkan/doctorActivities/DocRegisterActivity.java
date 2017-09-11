@@ -24,7 +24,7 @@ import org.json.JSONObject;
 
 public class DocRegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button register;
+    Button register, signin;
     EditText name, mobile, hospital, email, password;
     Spinner pre_mobile;
     SessionManager session;
@@ -34,7 +34,7 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_register);
-
+        signin = (Button) findViewById(R.id.sign_in);
         register = (Button) findViewById(R.id.register);
         name = (EditText) findViewById(R.id.editText13);
         mobile = (EditText) findViewById(R.id.editText14);
@@ -137,6 +137,10 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
             AppController.getInstance().addToRequestQueue(jsonObjReq);
 
         }
+//
+//        else if(view.getId() == R.id.sign_in){
+//            OnClickSignIn.sign_in_clicked(DocRegisterActivity.this);
+//        }
 
     }
 }

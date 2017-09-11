@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <ImageView
+        android:layout_marginTop="80dp"
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="160dp"
@@ -33,7 +34,8 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="Doctor" />
+            android:text="Doctor"
+            android:background="@drawable/my_btn"/>
 
         <Button
             android:id="@+id/patient"
@@ -43,7 +45,34 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="Patient" />
+            android:text="Patient"
+            android:background="@drawable/my_btn"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="Already Registered ? " />
+
+        <Button
+            android:id="@+id/sign_in"
+            android:layout_marginRight="80dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Sign in"
+            android:background="@drawable/my_btn"/>
     </LinearLayout>
 </LinearLayout>

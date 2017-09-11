@@ -23,14 +23,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
-    Button new_user, sign_in ;
+    Button new_user, sign_in;
     EditText username, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        new_user = (Button) findViewById(R.id.new_user);
         sign_in = (Button) findViewById(R.id.sign_in);
         new_user.setOnClickListener(this);
         sign_in.setOnClickListener(this);
@@ -43,10 +42,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         final SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         final SharedPreferences.Editor edit = pref.edit();
-        if (view.getId() == R.id.new_user) {
-            startActivity(new Intent(this, RegisterActivity.class));
-        }
-        else if(view.getId() == R.id.sign_in) {
+        if (view.getId() == R.id.sign_in) {
             String str_username = "" + username.getText();
             String str_password = "" + password.getText();
 
@@ -59,7 +55,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(SignInActivity.this, "enter your password", Toast.LENGTH_LONG).show();
                 return;
             }
-            String url1 = "https://04edccda.ngrok.io/dhadkan/api/login";
+            String url1 = AppController.get_base_url() + "dhadkan/api/login";
             JsonObjectRequest jsonObjReq1 = new JsonObjectRequest(Request.Method.POST,
                     url1, null,
                     new Response.Listener<JSONObject>() {
@@ -102,7 +98,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
             };
             AppController.getInstance().addToRequestQueue(jsonObjReq1);
             if (pref.getString("Token", "") != "") {
-                Toast.makeText(SignInActivity.this,pref.getString("Token", "") , Toast.LENGTH_LONG).show();
+                Toast.makeText(SignInActivity.this, pref.getString("Token", ""), Toast.LENGTH_LONG).show();
             }
             startActivity(new Intent(this, Entry.class));
         }
