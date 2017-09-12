@@ -2,6 +2,7 @@ package com.example.hulksmash.dhadkan.doctorActivities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -22,10 +25,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.hulksmash.dhadkan.ControllerActivity;
 import com.example.hulksmash.dhadkan.R;
 import com.example.hulksmash.dhadkan.controller.AppController;
 import com.example.hulksmash.dhadkan.controller.CustomAdapter;
 import com.example.hulksmash.dhadkan.controller.PatientDetailCustomAdapter;
+import com.example.hulksmash.dhadkan.controller.SessionManager;
 import com.example.hulksmash.dhadkan.patientActivities.RegisterActivity;
 
 import org.json.JSONArray;
@@ -44,6 +49,37 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
     Button notify, send;
     Dialog notify_dialog;
     EditText message_box;
+    static SessionManager session;
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.doc_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                logout(this);
+                return true;
+            case R.id.action_refresh:
+                Intent i = new Intent(this, PatientDetailListActivity.class);
+                i.putExtra("P_ID", p_id);
+                startActivity(i);
+                finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void logout(Context _c) {
+        session = new SessionManager(_c);
+        session.logoutUser();
+        Intent i = new Intent(PatientDetailListActivity.this, ControllerActivity.class);
+        startActivity(i);
+    }
 
 
     @Override
@@ -59,6 +95,8 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
         }
         notify = (Button) findViewById(R.id.ButtonNotify);
         notify.setOnClickListener(this);
+
+        session = new SessionManager(this);
 
         patient_detail_list_view = (RecyclerView) findViewById(R.id.patient_detail_list);
         getData(new CallBack() {
@@ -98,7 +136,7 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
                         try {
                             List<PatientDetailRow> data = new ArrayList<PatientDetailRow>();
                             JSONArray patient_details = response.getJSONArray("data");
-                            for(int i=0; i <patient_details.length(); i++) {
+                            for (int i = 0; i < patient_details.length(); i++) {
                                 JSONObject po = (JSONObject) patient_details.get(i);
                                 PatientDetailRow pr = new PatientDetailRow(
                                         po.getString("time_stamp").split("T")[0],
@@ -130,9 +168,9 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<String, String>();
-//                params.put("Authorization", "Token" + session.getUserDetails().get("Token"));
-                params.put("Authorization", "Token 8acad2c3ac23526c405b2aeef4e11c2d6c427043");
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Token " + session.getUserDetails().get("Token"));
+//                params.put("Authorization", "Token 884650e81fb3b0de08d872af03cf142bde843b10");
                 return params;
             }
         };
@@ -142,7 +180,7 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
 
     @Override
     public void onClick(View view) {
-        if( view.getId() == R.id.ButtonNotify) {
+        if (view.getId() == R.id.ButtonNotify) {
             showNotifyDialog();
         }
     }
@@ -190,10 +228,7 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
                                     try {
                                         JSONArray patient_details = response.getJSONArray("data");
                                         Log.d("TAG", patient_details.toString());
-                                        }
-
-
-                                         catch (JSONException e) {
+                                    } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
 //                            edit.commit();
@@ -226,9 +261,13 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
 
                         @Override
                         public Map<String, String> getHeaders() throws AuthFailureError {
-                            Map<String, String>  params = new HashMap<String, String>();
-//                params.put("Authorization", "Token" + session.getUserDetails().get("Token"));
-                            params.put("Authorization", "Token 8acad2c3ac23526c405b2aeef4e11c2d6c427043");
+                            Map<String, String> params = new HashMap<String, String>();
+//                            session = new SessionManager(PatientDetailListActivity.this);
+                            params.put("Authorization", "Token " + session.getUserDetails().get("Token"));
+//                            Log.d("TAG", "Authorization" + "Token " + session.getUserDetails().get("Token"));
+//                            params.put("Authorization", "Token 884650e81fb3b0de08d872af03cf142bde843b10");
+//                            Log.d("TAG", "Authorization");
+
                             return params;
                         }
                     };
