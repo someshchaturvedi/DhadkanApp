@@ -10,7 +10,7 @@ import com.google.firebase.messaging.RemoteMessage;
  */
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    String TAG = "FCM";
+    String TAG = "TAG";
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // ...

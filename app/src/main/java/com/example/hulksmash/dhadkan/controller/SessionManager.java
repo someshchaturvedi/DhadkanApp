@@ -12,7 +12,6 @@ import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
 import com.example.hulksmash.dhadkan.ChooseActivity;
-import com.example.hulksmash.dhadkan.SignInActivity;
 
 public class SessionManager {
     SharedPreferences pref;
@@ -88,7 +87,7 @@ public class SessionManager {
         editor.clear();
         editor.commit();
 
-        Intent i = new Intent(_context, SignInActivity.class);
+        Intent i = new Intent(_context, ChooseActivity.class);
 
         _context.startActivity(i);
     }

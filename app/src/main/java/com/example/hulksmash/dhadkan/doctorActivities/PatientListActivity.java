@@ -90,8 +90,8 @@ public class PatientListActivity extends AppCompatActivity {
 
 
 
-//        String url = AppController.get_base_url() + "dhadkan/api/doctor/" + session.getUserDetails().get("id") ;
-        String url  = AppController.get_base_url() + "dhadkan/api/doctor/11";
+        String url = AppController.get_base_url() + "dhadkan/api/doctor/" + session.getUserDetails().get("id") ;
+//        String url  = AppController.get_base_url() + "dhadkan/api/doctor/11";
 //        Log.d(TAG, url);
 //        Toast.makeText(PatientListActivity.this, url, Toast.LENGTH_LONG).show();
         final List<PatientRow> data = new ArrayList<PatientRow>();
@@ -129,8 +129,9 @@ public class PatientListActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String>  params = new HashMap<String, String>();
-//                params.put("Authorization", "Token" + session.getUserDetails().get("Token"));
-                params.put("Authorization", "Token 64e1081675f6d215754cdfd188f7b43fcda6820a");
+                params.put("Authorization", "Token " + session.getUserDetails().get("Token"));
+//                Log.d("TAG", "Token " + session.getUserDetails().get("Token"));
+                params.put("Authorization", "Token 8acad2c3ac23526c405b2aeef4e11c2d6c427043");
                 return params;
             }
         };

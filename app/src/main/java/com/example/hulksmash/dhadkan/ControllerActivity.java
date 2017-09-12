@@ -30,16 +30,18 @@ public class ControllerActivity extends Activity{
 
 
                 /* Create an Intent that will start the Menu-Activity. */
-        session = new SessionManager(ControllerActivity.this);
-        session.checkLogin();
-        fcm = new MyFirebaseInstanceIDService(ControllerActivity.this);
-        final HashMap<String, String> user = session.getUserDetails();
-        Log.d("DATA", user.toString());
+
 
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
+                session = new SessionManager(ControllerActivity.this);
+                session.checkLogin();
+                fcm = new MyFirebaseInstanceIDService(ControllerActivity.this);
+                final HashMap<String, String> user = session.getUserDetails();
+                Log.d("DATA", user.toString());
 
                 fcm.onTokenRefresh();
                 if ("doctor".equals(user.get("type"))) {

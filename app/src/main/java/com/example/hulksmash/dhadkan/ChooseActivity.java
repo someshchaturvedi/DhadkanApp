@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.hulksmash.dhadkan.controller.AppController;
+import com.example.hulksmash.dhadkan.controller.SessionManager;
 import com.example.hulksmash.dhadkan.doctorActivities.DocRegisterActivity;
 import com.example.hulksmash.dhadkan.patientActivities.Entry;
 import com.example.hulksmash.dhadkan.patientActivities.RegisterActivity;
@@ -28,8 +29,10 @@ import org.json.JSONObject;
 
 public class ChooseActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button doctor, patient, sign_in;
+    Button doctor, patient, sign_in, login;
     Dialog sign_in_dialog;
+    EditText username, password;
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,8 +64,6 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void callLoginDialog() {
-        final EditText username, password;
-        Button login;
 
 
         sign_in_dialog = new Dialog(this);
@@ -79,10 +80,7 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onClick(View v) {
-                final SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                final SharedPreferences.Editor edit = pref.edit();
-
-                if (v.getId() == R.id.sign_in) {
+                if (v.getId() == R.id.login) {
                     String str_username = "" + username.getText();
                     String str_password = "" + password.getText();
 
@@ -95,9 +93,9 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
                         Toast.makeText(ChooseActivity.this, "enter your password", Toast.LENGTH_LONG).show();
                         return;
                     }
-                    String url1 = AppController.get_base_url() + "dhadkan/api/login";
-                    JsonObjectRequest jsonObjReq1 = new JsonObjectRequest(Request.Method.POST,
-                            url1, null,
+                    String url = AppController.get_base_url() + "dhadkan/api/login";
+                    JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+                            url, null,
                             new Response.Listener<JSONObject>() {
 
                                 @Override
@@ -105,13 +103,19 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
                                     Log.d("TAG", response.toString());
 
                                     try {
-                                        edit.putString("Token", "" + response.get("token"));
-                                        Log.d("SP", "" + response.get("token"));
+                                        session = new SessionManager(ChooseActivity.this);
+                                        session.createLoginSession(
+                                                "" + response.get("Token"),
+                                                response.getInt("U_ID"),
+                                                "" + response.get("Type"),
+                                                response.getInt("ID")
+                                                );
+                                        Intent i = new Intent(ChooseActivity.this, ControllerActivity.class);
+                                        startActivity(i);
                                         finish();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
-                                    edit.commit();
                                 }
                             }, new Response.ErrorListener() {
 
@@ -127,7 +131,7 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
                             try {
                                 String str_mobile = "" + username.getText();
                                 String str_password = "" + password.getText();
-                                params.put("username", str_mobile);
+                                params.put("user", str_mobile);
                                 params.put("password", str_password);
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -137,11 +141,7 @@ public class ChooseActivity extends AppCompatActivity implements View.OnClickLis
 
                         }
                     };
-                    AppController.getInstance().addToRequestQueue(jsonObjReq1);
-                    if (pref.getString("Token", "") != "") {
-                        Toast.makeText(ChooseActivity.this, pref.getString("Token", ""), Toast.LENGTH_LONG).show();
-                    }
-                    startActivity(new Intent(ChooseActivity.this, Entry.class));
+                    AppController.getInstance().addToRequestQueue(jsonObjReq);
                 }
 
             }

@@ -20,7 +20,6 @@ import java.util.HashMap;
  */
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService  {
-    String TAG = "FCM";
     SessionManager session;
     HashMap<String, String> user;
     Context _context;
@@ -39,7 +38,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService  {
     public void onTokenRefresh() {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        Log.d("TAG", "Refreshed token: " + refreshedToken);
 
         session = new SessionManager(_context);
         session.checkLogin();
