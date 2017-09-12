@@ -65,7 +65,8 @@
                 android:layout_height="60dp"
                 android:ems="10"
                 android:hint="Date Of Birth"
-                android:inputType="date" />
+                android:inputType="none"
+                android:focusable="false"/>
 
             <RadioGroup
 
@@ -170,7 +171,9 @@
                 android:layout_height="60dp"
                 android:ems="10"
                 android:hint="Doctor's Name"
-                android:inputType="textPersonName" />
+                android:inputType="none"
+                android:clickable="false"
+                android:focusable="false"/>
 
             <TextView
                 android:id="@+id/textView2"

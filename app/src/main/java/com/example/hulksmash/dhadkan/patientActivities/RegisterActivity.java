@@ -179,7 +179,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         params.put("mobile", mobile.getText());
                         params.put("email", "" + email.getText());
                         params.put("doctor", doc_id);
-//                        params.put("date_of_birth", );
+                        String d = "" + date_of_birth.getText();
+                        String d_new = "" + d.split("/")[0] + "-" + d.split("/")[1] + "-" + d.split("/")[1];
+                        Log.d("TAG", d);
+
+                        params.put("date_of_birth", d_new);
 
                         params.put("gender", gender);
                     } catch (JSONException e) {
@@ -201,6 +205,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+        i1 = i1 + 1;
         date_of_birth.setText(i + "/" + i1 + "/" + i2);
         Toast.makeText(this, "" + i + i1 + i2, Toast.LENGTH_SHORT).show();
     }
