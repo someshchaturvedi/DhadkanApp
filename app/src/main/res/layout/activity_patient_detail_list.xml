@@ -52,7 +52,7 @@
                 android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Somesh Chaturvedi" />
+                android:text="" />
 
             <TextView
                 android:gravity="center_vertical"
@@ -61,7 +61,7 @@
                 android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Male" />
+                android:text="" />
 
             <TextView
                 android:gravity="center_vertical"
@@ -70,7 +70,7 @@
                 android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="28 Aug 1996" />
+                android:text="" />
 
             <TextView
                 android:gravity="center_vertical"
@@ -79,7 +79,7 @@
                 android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="7895382673" />
+                android:text="" />
 
             <!--<TextView-->
                 <!--android:id="@+id/email"-->

@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -50,6 +51,7 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
     Dialog notify_dialog;
     EditText message_box;
     static SessionManager session;
+    TextView name, gender, age, dob, mobile;
 
 
     @Override
@@ -96,6 +98,12 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
             Log.d("TAG", p_id);
             //The key argument here must match that used in the other activity
         }
+        name = (TextView) findViewById(R.id.name);
+        gender = (TextView) findViewById(R.id.gender);
+        dob = (TextView) findViewById(R.id.DOB);
+        mobile = (TextView) findViewById(R.id.contact);
+
+
         notify = (Button) findViewById(R.id.ButtonNotify);
         notify.setOnClickListener(this);
 
@@ -138,6 +146,11 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
 //
                         try {
                             List<PatientDetailRow> data = new ArrayList<PatientDetailRow>();
+                            name.setText(response.getString("name"));
+                            gender.setText(get_gender(response));
+                            mobile.setText("+91 - " + response.getInt("mobile"));
+                            dob.setText(get_DOB(response));
+
                             JSONArray patient_details = response.getJSONArray("data");
                             for (int i = 0; i < patient_details.length(); i++) {
                                 JSONObject po = (JSONObject) patient_details.get(i);
@@ -179,6 +192,22 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
         };
         AppController.getInstance().addToRequestQueue(jsonObjReq);
 
+    }
+
+    private String get_DOB(JSONObject response) throws JSONException {
+        String dob_initial = response.getString("date_of_birth");
+        String[] months = {"", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+        return dob_initial.split("-")[2] + " " + months[Integer.parseInt(dob_initial.split("-")[1])] + " " + dob_initial.split("-")[0];
+    }
+
+    private String get_gender(JSONObject response) throws JSONException {
+        int g =response.getInt("gender");
+        if( 1 == g) {
+            return "Male";
+        }
+        else {
+            return "Female";
+        }
     }
 
     @Override

@@ -36,11 +36,11 @@ public class PatientDetailRow {
 
     private String get_time_hour(String time) {
         String hr;
-        if (Integer.parseInt(time.split(":")[1]) > 12) {
-            int hr_int = 24 - Integer.parseInt(time.split(":")[1]);
+        if (Integer.parseInt(time.split(":")[0]) > 12) {
+            int hr_int = 24 - Integer.parseInt(time.split(":")[0]);
             return "" + hr_int;
         } else {
-            return "" + time.split(":")[1];
+            return "" + time.split(":")[0];
         }
     }
 

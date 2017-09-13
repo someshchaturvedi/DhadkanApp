@@ -303,7 +303,7 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
                         params.put("diastolic", diastolic.getText());
                         params.put("patient", Integer.parseInt(user.get("id")));
                         String d = "" + date.getText();
-                        String t = "" + time.getText() + ":00";
+                        String t = "" + time.getText();
                         params.put("time_stamp", d + " " + t);
 
                     } catch (JSONException e) {
