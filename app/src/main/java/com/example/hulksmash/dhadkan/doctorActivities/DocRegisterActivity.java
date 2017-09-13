@@ -34,13 +34,15 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doc_register);
+        getSupportActionBar().setTitle("Doctor Registration");
+
+
         signin = (Button) findViewById(R.id.sign_in);
         register = (Button) findViewById(R.id.register);
         name = (EditText) findViewById(R.id.editText13);
         mobile = (EditText) findViewById(R.id.editText14);
         email = (EditText) findViewById(R.id.editText15);
         hospital = (EditText) findViewById(R.id.editText16);
-        pre_mobile = (Spinner) findViewById(R.id.spinner);
         password = (EditText) findViewById(R.id.editText12);
         register.setOnClickListener(this);
         session = new SessionManager(this);
@@ -77,6 +79,11 @@ public class DocRegisterActivity extends AppCompatActivity implements View.OnCli
 
             if (str_hospital.length() == 0) {
                 Toast.makeText(DocRegisterActivity.this, "enter your hospital", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (str_mobile.length() != 10) {
+                Toast.makeText(DocRegisterActivity.this, "Enter 10 digit number", Toast.LENGTH_LONG).show();
                 return;
             }
 

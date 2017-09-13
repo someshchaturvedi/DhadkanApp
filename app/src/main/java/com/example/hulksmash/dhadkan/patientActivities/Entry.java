@@ -1,16 +1,20 @@
 package com.example.hulksmash.dhadkan.patientActivities;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -18,10 +22,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.hulksmash.dhadkan.ChooseActivity;
 import com.example.hulksmash.dhadkan.ControllerActivity;
 import com.example.hulksmash.dhadkan.R;
 import com.example.hulksmash.dhadkan.controller.AppController;
@@ -35,15 +41,20 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+
+import static android.R.attr.password;
 
 public class Entry extends AppCompatActivity implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    EditText date, time , weight, heart_rate, systolic, diastolic;
+    EditText date, time , weight, heart_rate, systolic, diastolic, doc_number, doc_name;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
-    Button save;
-    SessionManager session;
+    Button save, done;
+    static  SessionManager session;
     String currentDateandTime;
+    Dialog choose_doc;
+    int doc_id;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,6 +77,126 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
 
     private void change_doctor() {
 
+
+
+        choose_doc = new Dialog(this);
+        choose_doc.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        choose_doc.setContentView(R.layout.choose_doc_dialog);
+        choose_doc.setCancelable(true);
+        done = choose_doc.findViewById(R.id.login);
+
+        doc_number = choose_doc.findViewById(R.id.editText8);
+        doc_number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() == 10) {
+                    String url = AppController.get_base_url() + "dhadkan/api/doctor?mobile=" + editable.toString();
+                    JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET,
+                            url, null,
+                            new Response.Listener<JSONObject>() {
+
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.d("TAG", response.toString());
+
+                                    try {
+                                        doc_name.setText(response.get("name") + "");
+                                        doc_id = (int) response.get("pk");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        doc_name.setText("");
+                                        Toast.makeText(Entry.this, "No doctor with this mobile number is registered", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("TAG", "Error Message: " + error.getMessage());
+                        }
+                    }) {
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Authorization", "Token " + session.getUserDetails().get("Token"));
+                            Log.d("TAG", "Token " + session.getUserDetails().get("Token"));
+//                params.put("Authorization", "Token f00a64734d608991730ccba944776c316c38c544");
+                            return params;
+                        }
+
+                    };
+                    AppController.getInstance().addToRequestQueue(jsonObjReq);
+                }
+            }
+        });
+        doc_name = choose_doc.findViewById(R.id.editText9);
+        choose_doc.show();
+
+        done.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == R.id.login) {
+
+
+                    String url = AppController.get_base_url() + "dhadkan/api/patient/" + session.getUserDetails().get("id");
+                    JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.PUT,
+                            url, null,
+                            new Response.Listener<JSONObject>() {
+
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.d("TAG", response.toString());
+                                    choose_doc.dismiss();
+                                    Toast.makeText(Entry.this, "Doctor changed", Toast.LENGTH_LONG).show();
+
+                                }
+                            }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("TAG", "Error Message: " + error.getMessage());
+                        }
+                    }) {
+
+                        @Override
+                        public byte[] getBody() {
+                            JSONObject params = new JSONObject();
+                            try {
+                                params.put("d_id", doc_id);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            return params.toString().getBytes();
+
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("Authorization", "Token " + session.getUserDetails().get("Token"));
+                            Log.d("TAG", "Token " + session.getUserDetails().get("Token"));
+//                params.put("Authorization", "Token f00a64734d608991730ccba944776c316c38c544");
+                            return params;
+                        }
+                    };
+                    AppController.getInstance().addToRequestQueue(jsonObjReq);
+                }
+
+            }
+        });
     }
 
     private void logout(Context _c) {
@@ -120,22 +251,22 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
             String str_systolic = "" + systolic.getText();
             String str_diastolic = "" + diastolic.getText();
             if (str_weight.length() == 0) {
-                Toast.makeText(Entry.this, "enter your weight", Toast.LENGTH_LONG).show();
+                Toast.makeText(Entry.this, "Enter your weight", Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (str_heart_rate.length() == 0) {
-                Toast.makeText(Entry.this, "enter your heart_rate", Toast.LENGTH_LONG).show();
+                Toast.makeText(Entry.this, "Enter your heart_rate", Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (str_diastolic.length() == 0) {
-                Toast.makeText(Entry.this, "enter your diastolic bp", Toast.LENGTH_LONG).show();
+                Toast.makeText(Entry.this, "Enter your diastolic bp", Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (str_systolic.length() == 0) {
-                Toast.makeText(Entry.this, "enter your systolic bp", Toast.LENGTH_LONG).show();
+                Toast.makeText(Entry.this, "Enter your systolic bp", Toast.LENGTH_LONG).show();
                 return;
             }
             String url = AppController.get_base_url() + "dhadkan/api/data";
@@ -164,7 +295,6 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
                 public byte[] getBody() {
                     JSONObject params = new JSONObject();
 
-                    SharedPreferences pref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
                     try {
                         HashMap<String, String> user = session.getUserDetails();
                         params.put("weight", weight.getText());
@@ -181,6 +311,15 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
                     }
                     return params.toString().getBytes();
 
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", "Token " + session.getUserDetails().get("Token"));
+                    Log.d("TAG", "Token " + session.getUserDetails().get("Token"));
+//                params.put("Authorization", "Token f00a64734d608991730ccba944776c316c38c544");
+                    return params;
                 }
             };
             AppController.getInstance().addToRequestQueue(jsonObjReq);

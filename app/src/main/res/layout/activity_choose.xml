@@ -6,11 +6,20 @@
     android:orientation="vertical">
 
     <ImageView
-        android:layout_marginTop="80dp"
         android:id="@+id/imageView"
+        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:src="@drawable/dhadkan" />
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dhadkan"
+        android:textColor="@color/colortheme"
+        android:textSize="30dp"/>
 
     <TextView
         android:id="@+id/textView3"
@@ -19,7 +28,7 @@
         android:layout_marginTop="20sp"
         android:gravity="center"
         android:text="Register as"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,12 +76,12 @@
 
         <Button
             android:id="@+id/sign_in"
-            android:layout_marginRight="80dp"
-            android:layout_marginLeft="80dp"
             android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Sign in"
-            android:background="@drawable/my_btn"/>
+            android:textSize="10sp"
+            android:background="@drawable/my_btn_2"
+            />
     </LinearLayout>
 </LinearLayout>

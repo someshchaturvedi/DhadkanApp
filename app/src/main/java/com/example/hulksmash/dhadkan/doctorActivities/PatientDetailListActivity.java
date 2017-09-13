@@ -87,6 +87,9 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_detail_list);
 
+        getSupportActionBar().setTitle("Patient Data");
+
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             p_id = extras.getString("P_ID");

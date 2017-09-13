@@ -35,7 +35,6 @@ import static com.android.volley.Request.*;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, TextWatcher {
     Button register;
     EditText date_of_birth, time_reminder, name, address, email, mobile, password, doctor_number, doctor_name;
-    Spinner pre_mobile, pre_doctor_mobile, reminder;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
     RadioGroup sexRadioGroup;
@@ -63,9 +62,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         doctor_number.addTextChangedListener(this);
         doctor_name = (EditText) findViewById(R.id.editText10);
 
-        pre_mobile = (Spinner) findViewById(R.id.spinner);
-        pre_doctor_mobile = (Spinner) findViewById(R.id.spinner2);
-        reminder = (Spinner) findViewById(R.id.spinner3);
+
 
         register = (Button) findViewById(R.id.register);
         register.setOnClickListener(this);
@@ -73,8 +70,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         date_of_birth = (EditText) findViewById(R.id.editText3);
         date_of_birth.setOnClickListener(this);
 
-        time_reminder = (EditText) findViewById(R.id.editText11);
-        time_reminder.setOnClickListener(this);
+//        time_reminder = (EditText) findViewById(R.id.editText11);
+//        time_reminder.setOnClickListener(this);
 
         datePickerDialog = new DatePickerDialog(
                 this, RegisterActivity.this, 1950, 0, 0);
@@ -96,34 +93,45 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             String str_address = "" + address.getText();
             String str_dob = "" + date_of_birth.getText();
             String str_doctor_mobile = "" + doctor_number.getText();
+            String str_doc_name = "" +doctor_name.getText();
 
             if (str_name.length() == 0) {
-                Toast.makeText(RegisterActivity.this, "enter your name", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "Enter your name", Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (str_address.length() == 0) {
-                Toast.makeText(RegisterActivity.this, "enter your address", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "Enter your address", Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (str_mobile.length() == 0) {
-                Toast.makeText(RegisterActivity.this, "enter your mobile number", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "Enter your mobile number", Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (str_password.length() == 0) {
-                Toast.makeText(RegisterActivity.this, "enter your password", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "Enter your password", Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (str_dob.length() == 0) {
-                Toast.makeText(RegisterActivity.this, "enter your date of birth", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "Enter your date of birth", Toast.LENGTH_LONG).show();
                 return;
             }
 
             if (str_doctor_mobile.length() == 0) {
-                Toast.makeText(RegisterActivity.this, "enter your doctor's number", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegisterActivity.this, "Enter your doctor's number", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (str_doctor_mobile.length() != 10 || str_mobile.length() != 10) {
+                Toast.makeText(RegisterActivity.this, "Enter 10 digit number", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (str_doc_name.length() == 0 ) {
+                Toast.makeText(RegisterActivity.this, "Enter a valid doctor's number", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -198,9 +206,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         } else if (view.getId() == R.id.editText3) {
             datePickerDialog.show();
-        } else if (view.getId() == R.id.editText11) {
-            timePickerDialog.show();
         }
+//        else if (view.getId() == R.id.editText11) {
+//            timePickerDialog.show();
+//        }
     }
 
     @Override

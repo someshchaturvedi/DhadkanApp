@@ -79,6 +79,9 @@ public class PatientListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_list);
 
+        getSupportActionBar().setTitle("Patient List");
+
+
         session = new SessionManager(this);
 
         patient_list_view = (RecyclerView) findViewById(R.id.patient_list);

@@ -37,6 +37,7 @@
             <!--</LinearLayout>-->
 
             <EditText
+                android:backgroundTint="@color/colortheme"
                 android:id="@+id/editText13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,14 +51,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Spinner
+                <TextView
                     android:id="@+id/spinner"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
-                    android:entries="@array/mobile_initials" />
+                    android:gravity="center"
+                    android:text="+91 -" />
 
                 <EditText
+                    android:backgroundTint="@color/colortheme"
                     android:id="@+id/editText14"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -72,6 +75,7 @@
 
 
             <EditText
+                android:backgroundTint="@color/colortheme"
                 android:layout_marginTop="10dp"
                 android:id="@+id/editText12"
                 android:layout_width="match_parent"
@@ -81,6 +85,7 @@
                 android:inputType="textPassword" />
 
             <EditText
+                android:backgroundTint="@color/colortheme"
                 android:id="@+id/editText15"
 
                 android:layout_width="match_parent"
@@ -91,6 +96,7 @@
                 android:inputType="textPersonName" />
 
             <EditText
+                android:backgroundTint="@color/colortheme"
                 android:id="@+id/editText16"
 
                 android:layout_width="match_parent"

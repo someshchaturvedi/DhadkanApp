@@ -86,6 +86,7 @@
                     android:buttonTint="#EB1C23"/>
 
                 <RadioButton
+                    android:buttonTint="@color/colortheme"
                     android:id="@+id/radioFemale"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -108,13 +109,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Spinner
+                <TextView
                     android:backgroundTint="@color/colortheme"
                     android:id="@+id/spinner"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:entries="@array/mobile_initials" />
+                    android:gravity="center"
+                    android:text="+91 -" />
 
                 <EditText
                     android:backgroundTint="@color/colortheme"
@@ -144,13 +146,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Spinner
+                <TextView
+                    android:gravity="center"
                     android:backgroundTint="@color/colortheme"
                     android:id="@+id/spinner2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:entries="@array/mobile_initials" />
+                    android:text="+91 -" />
 
                 <EditText
                     android:id="@+id/editText7"
@@ -175,30 +178,30 @@
                 android:clickable="false"
                 android:focusable="false"/>
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Set reminders for health records" />
+            <!--<TextView-->
+                <!--android:id="@+id/textView2"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="20sp"-->
+                <!--android:text="Set reminders for health records" />-->
 
 
-            <Spinner
-                android:backgroundTint="@color/colortheme"
-                android:id="@+id/spinner3"
-                android:minHeight="60dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:entries="@array/reminders" />
+            <!--<Spinner-->
+                <!--android:backgroundTint="@color/colortheme"-->
+                <!--android:id="@+id/spinner3"-->
+                <!--android:minHeight="60dp"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:entries="@array/reminders" />-->
 
-            <EditText
-                android:backgroundTint="@color/colortheme"
-                android:id="@+id/editText11"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:ems="10"
-                android:hint="Time"
-                android:inputType="time" />
+            <!--<EditText-->
+                <!--android:backgroundTint="@color/colortheme"-->
+                <!--android:id="@+id/editText11"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="60dp"-->
+                <!--android:ems="10"-->
+                <!--android:hint="Time"-->
+                <!--android:inputType="time" />-->
 
 
             <Button
