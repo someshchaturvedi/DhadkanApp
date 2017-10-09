@@ -1,5 +1,7 @@
 package com.example.hulksmash.dhadkan.doctorActivities;
 
+import android.util.Log;
+
 /**
  * Created by hulksmash on 10/9/17.
  */
@@ -35,9 +37,9 @@ public class PatientDetailRow {
     }
 
     private String get_time_hour(String time) {
-        String hr;
+        Log.d("TAG", time.toString());
         if (Integer.parseInt(time.split(":")[0]) > 12) {
-            int hr_int = 24 - Integer.parseInt(time.split(":")[0]);
+            int hr_int = Integer.parseInt(time.split(":")[0]) - 12;
             return "" + hr_int;
         } else {
             return "" + time.split(":")[0];

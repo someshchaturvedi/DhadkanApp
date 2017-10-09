@@ -81,6 +81,7 @@ public class PatientDetailListActivity extends AppCompatActivity implements View
         session.logoutUser();
         Intent i = new Intent(PatientDetailListActivity.this, ControllerActivity.class);
         startActivity(i);
+        finish();
     }
 
 

@@ -18,7 +18,7 @@ public class AppController extends Application {
 
     private RequestQueue mRequestQueue;
 
-    private static String base_url = "http://88b72ec6.ngrok.io/";
+    private static String base_url = "http://compbio.iitr.ac.in/dhadkan/";
 
     private static AppController mInstance;
 
