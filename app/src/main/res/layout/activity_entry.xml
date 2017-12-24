@@ -220,6 +220,19 @@
 
 </android.support.v7.widget.CardView>
 
+
+
+            <Button
+                android:id="@+id/add_pic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/my_btn"
+                android:text="Add photo (optional)" />
+
             <Button
                 android:id="@+id/register"
                 android:layout_width="match_parent"
@@ -229,7 +242,16 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/my_btn"
-                android:text="Save" />
+                android:text="Send" />
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+
+
+
 
         </LinearLayout>
     </ScrollView>
