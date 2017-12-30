@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,6 +72,7 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
     ImageView ivImage;
     private String userChoosenTask;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
+    String ImgBytes;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -250,12 +252,15 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
         } catch (IOException e) {
             e.printStackTrace();
         }
+        byte[] ba  = bytes.toByteArray();
+        ImgBytes = Base64.encodeToString(ba, 0);
         ivImage.setImageBitmap(thumbnail);
     }
 
     private void onSelectFromGalleryResult(Intent data) {
         ivImage = (ImageView) findViewById(R.id.ivImage);
         Bitmap bm=null;
+
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
@@ -263,7 +268,11 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
                 e.printStackTrace();
             }
         }
-        
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        byte[] ba  = bytes.toByteArray();
+        ImgBytes = Base64.encodeToString(ba, 0);
+        Log.e("TAG", ImgBytes);
         ivImage.setImageBitmap(bm);
     }
 
@@ -313,6 +322,7 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
         save.setOnClickListener(this);
 
         add_pic = (Button) findViewById(R.id.add_pic);
+        add_pic.setOnClickListener(this);
 
         session = new SessionManager(this);
 
@@ -323,43 +333,105 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
         if (view.getId() == R.id.add_pic){
             selectImage();
         }
-        if (view.getId() == R.id.editText) {
+        else if (view.getId() == R.id.editText) {
             datePickerDialog.show();
         } else if(view.getId() == R.id.editText2) {
             timePickerDialog.show();
         } else if(view.getId() == R.id.register) {
-            String str_weight = "" + weight.getText();
-            String str_heart_rate = "" + heart_rate.getText();
-            String str_systolic = "" + systolic.getText();
-            String str_diastolic = "" + diastolic.getText();
-            if (str_weight.length() == 0) {
-                Toast.makeText(Entry.this, "Enter your weight", Toast.LENGTH_LONG).show();
+//            String str_weight = "" + weight.getText();
+//            String str_heart_rate = "" + heart_rate.getText();
+//            String str_systolic = "" + systolic.getText();
+//            String str_diastolic = "" + diastolic.getText();
+//            if (str_weight.length() == 0) {
+//                Toast.makeText(Entry.this, "Enter your weight", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//
+//            if (str_heart_rate.length() == 0) {
+//                Toast.makeText(Entry.this, "Enter your heart_rate", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//
+//            if (str_diastolic.length() == 0) {
+//                Toast.makeText(Entry.this, "Enter your diastolic bp", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//
+//            if (str_systolic.length() == 0) {
+//                Toast.makeText(Entry.this, "Enter your systolic bp", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//            String url = AppController.get_base_url() + "dhadkan/api/data";
+//            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
+//                    url, null,
+//                    new Response.Listener<JSONObject>() {
+//
+//                        @Override
+//                        public void onResponse(JSONObject response) {
+//                            Log.d("TAG", response.toString());
+//                            Toast.makeText(Entry.this, "Data updated!", Toast.LENGTH_SHORT).show();
+//
+//                            Intent i = new Intent(Entry.this, Entry.class);
+//                            startActivity(i);
+//                            finish();
+//                        }
+//                    }, new Response.ErrorListener() {
+//
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Log.d("TAG", "Error Message: " + error.getMessage());
+//                }
+//            }) {
+//
+//                @Override
+//                public byte[] getBody() {
+//                    JSONObject params = new JSONObject();
+//
+//                    try {
+//                        HashMap<String, String> user = session.getUserDetails();
+//                        params.put("weight", weight.getText());
+//                        params.put("heart_rate", heart_rate.getText());
+//                        params.put("systolic", systolic.getText());
+//                        params.put("diastolic", diastolic.getText());
+//                        params.put("patient", Integer.parseInt(user.get("id")));
+//                        String d = "" + date.getText();
+//                        String t = "" + time.getText();
+//                        params.put("time_stamp", d + " " + t);
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    return params.toString().getBytes();
+//
+//                }
+//
+//                @Override
+//                public Map<String, String> getHeaders() throws AuthFailureError {
+//                    Map<String, String> params = new HashMap<String, String>();
+//                    params.put("Authorization", "Token " + session.getUserDetails().get("Token"));
+//                    Log.d("TAG", "Token " + session.getUserDetails().get("Token"));
+////                params.put("Authorization", "Token f00a64734d608991730ccba944776c316c38c544");
+//                    return params;
+//                }
+//            };
+//            AppController.getInstance().addToRequestQueue(jsonObjReq);
+
+
+            /////////////////////// Image send URL /////////////////////////
+
+            if(ImgBytes.length() == 0){
                 return;
             }
 
-            if (str_heart_rate.length() == 0) {
-                Toast.makeText(Entry.this, "Enter your heart_rate", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            if (str_diastolic.length() == 0) {
-                Toast.makeText(Entry.this, "Enter your diastolic bp", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            if (str_systolic.length() == 0) {
-                Toast.makeText(Entry.this, "Enter your systolic bp", Toast.LENGTH_LONG).show();
-                return;
-            }
-            String url = AppController.get_base_url() + "dhadkan/api/data";
-            JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.POST,
-                    url, null,
+            String url2 = AppController.get_base_url() + "dhadkan/api/image";
+            JsonObjectRequest jsonObjReq2 = new JsonObjectRequest(Request.Method.POST,
+                    url2, null,
                     new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
                             Log.d("TAG", response.toString());
-                            Toast.makeText(Entry.this, "Data updated!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Entry.this, "Image Sent!", Toast.LENGTH_SHORT).show();
 
                             Intent i = new Intent(Entry.this, Entry.class);
                             startActivity(i);
@@ -379,10 +451,7 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
 
                     try {
                         HashMap<String, String> user = session.getUserDetails();
-                        params.put("weight", weight.getText());
-                        params.put("heart_rate", heart_rate.getText());
-                        params.put("systolic", systolic.getText());
-                        params.put("diastolic", diastolic.getText());
+                        params.put("byte", ImgBytes);
                         params.put("patient", Integer.parseInt(user.get("id")));
                         String d = "" + date.getText();
                         String t = "" + time.getText();
@@ -404,7 +473,9 @@ public class Entry extends AppCompatActivity implements View.OnClickListener, Ti
                     return params;
                 }
             };
-            AppController.getInstance().addToRequestQueue(jsonObjReq);
+            AppController.getInstance().addToRequestQueue(jsonObjReq2);
+
+
         }
 
     }

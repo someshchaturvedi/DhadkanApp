@@ -232,6 +232,11 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/my_btn"
                 android:text="Add photo (optional)" />
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
 
             <Button
                 android:id="@+id/register"
@@ -243,11 +248,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/my_btn"
                 android:text="Send" />
-            <ImageView
-                android:id="@+id/ivImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+
 
 
 
